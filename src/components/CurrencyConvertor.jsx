@@ -1,10 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CurrencyConvertor = () => {
   const [currencies, setCurrencies] = useState([]);
   const [amount, setAmmount] = useState(1);
 
   // currencies -> https://api.frankfurter.app/currencies
+  const fetchCurrencies = async () => {
+    try {
+      const res = await fetch("https://api.frankfurter.app/currencies");
+      const data = await res.json();
+
+      setCurrencies(data);
+    } catch (error) {
+      console.log("Error : ", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCurrencies();
+  }, []);
+  console.log(currencies);
+
+  const convertCurrency = () => {};
 
   // Conversion -> https://api.frankfurter.app/latest?amount=1&from=USD&to=INR
 
@@ -29,7 +46,10 @@ const CurrencyConvertor = () => {
         />
       </div>
       <div className='flex justify-end mt-6'>
-        <button className='px-5 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>
+        <button
+          onClick={convertCurrency}
+          className='px-5 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+        >
           Convert
         </button>
       </div>
