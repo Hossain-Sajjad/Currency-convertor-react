@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
+import CurrencyDropdown from "./CurrencyDropdown";
+import { HiArrowsRightLeft } from "react-icons/hi2";
 
 const CurrencyConvertor = () => {
   const [currencies, setCurrencies] = useState([]);
   const [amount, setAmmount] = useState(1);
+  const [fromCurrency, setFromCurrency] = useState("USD");
+  const [toCurrency, setToCurrency] = useState("INR");
 
   // currencies -> https://api.frankfurter.app/currencies
   const fetchCurrencies = async () => {
@@ -10,7 +14,7 @@ const CurrencyConvertor = () => {
       const res = await fetch("https://api.frankfurter.app/currencies");
       const data = await res.json();
 
-      setCurrencies(data);
+      setCurrencies(Object.keys(data));
     } catch (error) {
       console.log("Error : ", error);
     }
@@ -30,7 +34,27 @@ const CurrencyConvertor = () => {
       <h2 className='mb-5 text-2xl font-semibold text-gray-700'>
         Currency Convertor
       </h2>
-      <div>Dropdowns</div>
+      <div>
+        <CurrencyDropdown
+          currencies={currencies}
+          title='From'
+          currency={fromCurrency}
+          setCurrency={setFromCurrency}
+        />
+
+        <div className='flex justify-center -mb-5 sm:mb-0'>
+          <button className='p-2 bg-gray-200 rounded-full cursor-pointer hover:bg-gray-300'>
+            <HiArrowsRightLeft className='text-xl text-gray-700' />
+          </button>
+        </div>
+
+        <CurrencyDropdown
+          currencies={currencies}
+          title='To'
+          currency={toCurrency}
+          setCurrency={setToCurrency}
+        />
+      </div>
       <div className='mt-4 '>
         <label
           htmlFor='ammount'
