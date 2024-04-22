@@ -127,7 +127,7 @@ const CurrencyConvertor = () => {
         </div>
       ) : (
         <div className='mt-4 text-lg font-medium text-right text-green-600'>
-          Converted The Amount
+          Convert The Amount
         </div>
       )}
     </div>
